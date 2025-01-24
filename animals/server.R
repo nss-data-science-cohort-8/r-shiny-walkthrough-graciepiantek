@@ -1,6 +1,7 @@
 
 function(input, output, session) {
-    output$distPlot <- renderPlot({   
+  
+    output$barPlot <- renderPlot({   
       
       plot_data <- animals |> 
       filter(`Days in Shelter` <= input$max_days) 
@@ -10,19 +11,20 @@ function(input, output, session) {
         filter(Type == input$Type)
     }
     
-    if (input$`Outcome Type` != "All") {  
+    if (input$outcome_type != "All") {  
       plot_data <- plot_data |> 
-        filter(`Outcome Type` == input$`Outcome Type`)
+        filter(`Outcome Type` == input$outcome_type)
     }
     
     ggplot(plot_data, aes(x = Type, fill = `Outcome Type`)) +
-      geom_col() +
+      geom_bar(
+        stat = "count") +
       labs(
-        title = "Draft",
         x = "Type of Pet",
         y = "Count"
-      )
+      ) +
+      theme_classic() +
+      scale_fill_brewer(palette = "RdYlBu")
     })
 }
-    
 

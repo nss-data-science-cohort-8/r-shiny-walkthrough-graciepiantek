@@ -1,28 +1,24 @@
 
 fluidPage(
+  theme = shinytheme("united"),
   titlePanel("Animal Data"),
-
-max_days <- max(animals$`Days in Shelter`, na.rm = TRUE),
-
-    sidebarLayout(
-      sidebarPanel(
-        sliderInput("max_days","Maximum Days in Shelter:",
-          min = 0, 
-          max = max_days,
-          value = 10, #need to change depending on result
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("max_days", "Days in Shelter:",
+                  min = 0, 
+                  max = max(animals$`Days in Shelter`, na.rm = TRUE),
+                  value = 10,
                   step = 1
-        ),
-          selectInput("Type", "Type of Pet:",
-                      choices = c("All", unique(animals$Type))
-          ),
-          selectInput("Outcome Type", "Outcome of Pet:",
-                      choices = c("All", unique(animals$`Outcome Type`))
-            
-          )
-          ), 
-        mainPanel(
-            plotOutput("bar_plot")
-        )
+      ),
+      selectInput("Type", "Type of Pet:",
+                  choices = c("All", unique(animals$Type))
+      ),
+      selectInput("outcome_type", "Outcome of Pet: ",
+                  choices = c("All", unique(animals$`Outcome Type`))
+      )
+    ), 
+    mainPanel(
+      plotOutput("barPlot")
     )
+  )
 )
-
